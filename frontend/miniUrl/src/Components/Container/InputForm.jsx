@@ -15,7 +15,7 @@ const InputForm = ({onUrlAdded }) => {
       setError(null);
 
       const response = await axios.post(
-        'http://localhost:3000/api/miniUrl',
+        'https://miniurl-dfc8.onrender.com/api/miniUrl',
         {
           longUrl: url
         }
