@@ -108,14 +108,7 @@ const UrlsTable = ({ urls = [], onDelete }) => {
 
       {/* QR Popup */}
       {qrUrl && (
-        <div
-          className="
-          fixed bottom-4 right-4
-          bg-white border border-gray-300
-          shadow-lg rounded-lg
-          p-4 z-50
-          w-64">
-          {/* Header */}
+        <div className="fixed bottom-4 right-4 sm:absolute sm:top-10 sm:right-10 sm:bottom-6 bg-white border border-gray-300 shadow-lg rounded-lg p-4 z-50 h-auto">
           <div className="flex justify-between items-center mb-3">
             <h2 className="text-sm font-semibold">QR Code</h2>
             <button
@@ -126,10 +119,7 @@ const UrlsTable = ({ urls = [], onDelete }) => {
             </button>
           </div>
 
-          {/* QR Container */}
-          <div className="flex justify-center">
-            <QRCodeCanvas value={qrUrl} size={180} className="max-w-full" />
-          </div>
+          <QRCodeCanvas value={qrUrl} size={160} />
         </div>
       )}
     </div>
