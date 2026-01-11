@@ -3,10 +3,15 @@ import { QRCodeCanvas } from "qrcode.react";
 
 const UrlsTable = ({ urls = [], onDelete }) => {
   const [qrUrl, setQrUrl] = useState(null);
+  const [copiedId, setCopiedId] = useState(null);
 
-  const handleCopy = (shortUrl) => {
+  const handleCopy = (shortUrl, id) => {
     navigator.clipboard.writeText(shortUrl);
-    alert("Short URL copied!");
+    setCopiedId(id);
+
+    setTimeout(() => {
+      setCopiedId(null);
+    }, 1500);
   };
 
   return (
@@ -39,7 +44,7 @@ const UrlsTable = ({ urls = [], onDelete }) => {
                 <td className="block md:table-cell px-4 py-2">
                   <span className="md:hidden text-xs text-gray-500">
                     Original URL:
-                  </span>{' '}
+                  </span>{" "}
                   <div className="break-all">{url.original_url}</div>
                 </td>
 
@@ -47,7 +52,7 @@ const UrlsTable = ({ urls = [], onDelete }) => {
                 <td className="block md:table-cell px-4 py-2 text-blue-600">
                   <span className="md:hidden text-xs text-gray-500">
                     Short URL:
-                  </span>{' '}
+                  </span>{" "}
                   <a
                     href={url.short_code}
                     target="_blank"
@@ -62,7 +67,7 @@ const UrlsTable = ({ urls = [], onDelete }) => {
                 <td className="block md:table-cell px-4 py-2 md:text-center">
                   <span className="md:hidden text-xs text-gray-500">
                     Redirects:
-                  </span>{' '}
+                  </span>{" "}
                   {url.redirect_count}
                 </td>
 
@@ -74,10 +79,10 @@ const UrlsTable = ({ urls = [], onDelete }) => {
 
                   <div className="flex flex-wrap md:flex-nowrap gap-2 mt-1 md:justify-center">
                     <button
-                      onClick={() => handleCopy(url.short_code)}
+                      onClick={() => handleCopy(url.short_code, url.id)}
                       className="border border-gray-300 rounded-md px-3 py-1 text-xs sm:text-sm hover:bg-gray-100"
                     >
-                      Copy
+                      {copiedId === url.id ? "Copied!" : "Copy"}
                     </button>
 
                     <button
