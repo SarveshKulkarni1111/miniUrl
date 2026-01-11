@@ -38,16 +38,16 @@ const UrlsTable = ({ urls = [], onDelete }) => {
                 {/* Original URL */}
                 <td className="block md:table-cell px-4 py-2">
                   <span className="md:hidden text-xs text-gray-500">
-                    Original URL:&nbsp;
-                  </span>
+                    Original URL:
+                  </span>{' '}
                   <div className="break-all">{url.original_url}</div>
                 </td>
 
                 {/* Short URL */}
                 <td className="block md:table-cell px-4 py-2 text-blue-600">
                   <span className="md:hidden text-xs text-gray-500">
-                    Short URL:&nbsp;
-                  </span>
+                    Short URL:
+                  </span>{' '}
                   <a
                     href={url.short_code}
                     target="_blank"
@@ -61,8 +61,8 @@ const UrlsTable = ({ urls = [], onDelete }) => {
                 {/* Redirect count */}
                 <td className="block md:table-cell px-4 py-2 md:text-center">
                   <span className="md:hidden text-xs text-gray-500">
-                    Redirects:&nbsp;
-                  </span>
+                    Redirects:
+                  </span>{' '}
                   {url.redirect_count}
                 </td>
 
