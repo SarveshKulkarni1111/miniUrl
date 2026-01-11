@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { QRCodeCanvas } from 'qrcode.react';
+import React, { useState } from "react";
+import { QRCodeCanvas } from "qrcode.react";
 
 const UrlsTable = ({ urls = [], onDelete }) => {
   const [qrUrl, setQrUrl] = useState(null);
 
   const handleCopy = (shortUrl) => {
     navigator.clipboard.writeText(shortUrl);
-    alert('Short URL copied!');
+    alert("Short URL copied!");
   };
 
   return (
@@ -15,9 +15,9 @@ const UrlsTable = ({ urls = [], onDelete }) => {
         {/* Hide headers on mobile */}
         <thead className="hidden md:table-header-group bg-gray-100">
           <tr className="text-left text-sm text-gray-600">
-            <th className="px-4 py-3">Original URL</th>
-            <th className="px-4 py-3">Short URL</th>
-            <th className="px-4 py-3 text-center">Redirects</th>
+            <th className="px-4 py-3">Original URL: </th>
+            <th className="px-4 py-3">Short URL: </th>
+            <th className="px-4 py-3 text-center">Redirects: </th>
             <th className="px-4 py-3 text-center">Actions</th>
           </tr>
         </thead>
@@ -25,10 +25,7 @@ const UrlsTable = ({ urls = [], onDelete }) => {
         <tbody>
           {urls.length === 0 ? (
             <tr>
-              <td
-                colSpan="4"
-                className="px-4 py-6 text-center text-gray-500"
-              >
+              <td colSpan="4" className="px-4 py-6 text-center text-gray-500">
                 No URLs created yet
               </td>
             </tr>
@@ -43,9 +40,7 @@ const UrlsTable = ({ urls = [], onDelete }) => {
                   <span className="md:hidden text-xs text-gray-500">
                     Original URL
                   </span>
-                  <div className="break-all">
-                    {url.original_url}
-                  </div>
+                  <div className="break-all">{url.original_url}</div>
                 </td>
 
                 {/* Short URL */}
@@ -76,7 +71,8 @@ const UrlsTable = ({ urls = [], onDelete }) => {
                   <span className="md:hidden text-xs text-gray-500">
                     Actions
                   </span>
-                  <div className="flex flex-wrap gap-2 mt-1 md:justify-center">
+
+                  <div className="flex flex-wrap md:flex-nowrap gap-2 mt-1 md:justify-center">
                     <button
                       onClick={() => handleCopy(url.short_code)}
                       className="border border-gray-300 rounded-md px-3 py-1 text-xs sm:text-sm hover:bg-gray-100"

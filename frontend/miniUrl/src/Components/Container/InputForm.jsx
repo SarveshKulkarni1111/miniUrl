@@ -36,34 +36,34 @@ const InputForm = ({onUrlAdded }) => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="w-full max-w-xl mx-auto mt-12 flex flex-col gap-2"
-    >
-      <div className="flex gap-2">
-        <input
-          type="url"
-          placeholder="Enter your long URL"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-          required
-          className="flex-1 px-4 py-2 border rounded-md"
-        />
+  <form
+    onSubmit={handleSubmit}
+    className="w-full max-w-xl mx-auto mt-12 flex flex-col gap-2 px-4"
+  >
+    <div className="flex gap-2">
+      <input
+        type="url"
+        placeholder="Enter your long URL"
+        value={url}
+        onChange={(e) => setUrl(e.target.value)}
+        required
+        className="flex-1 px-4 py-2 border rounded-md"
+      />
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="px-5 py-2 bg-gray-800 text-white rounded-md disabled:opacity-50"
-        >
-          {loading ? 'Shortening...' : 'Shorten'}
-        </button>
-      </div>
+      <button
+        type="submit"
+        disabled={loading}
+        className="px-5 py-2 bg-gray-800 text-white rounded-md disabled:opacity-50"
+      >
+        {loading ? 'Shortening...' : 'Shorten'}
+      </button>
+    </div>
 
-      {error && (
-        <p className="text-sm text-red-500">{error}</p>
-      )}
-    </form>
-  );
+    {error && (
+      <p className="text-sm text-red-500">{error}</p>
+    )}
+  </form>
+);
 };
 
 export default InputForm;
