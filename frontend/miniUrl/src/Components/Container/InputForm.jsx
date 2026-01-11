@@ -47,13 +47,13 @@ const InputForm = ({onUrlAdded }) => {
         value={url}
         onChange={(e) => setUrl(e.target.value)}
         required
-        className="flex-1 px-4 py-2 border rounded-md"
+        className="flex-1 h-11 px-4 border rounded-md"
       />
 
       <button
         type="submit"
         disabled={loading}
-        className="px-5 py-2 bg-gray-800 text-white rounded-md disabled:opacity-50"
+        className="h-11 px-6 bg-gray-800 text-white rounded-md disabled:opacity-50"
       >
         {loading ? 'Shortening...' : 'Shorten'}
       </button>
