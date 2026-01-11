@@ -36,7 +36,7 @@ async function createMiniUrl(req, res) {
 
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: error });
   }
 }
 
@@ -56,7 +56,7 @@ async function getMiniUrls(req, res) {
 
   } catch (error) {
     console.error('getMiniUrls error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: error });
   }
 }
 
