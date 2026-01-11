@@ -108,7 +108,7 @@ const UrlsTable = ({ urls = [], onDelete }) => {
 
       {/* QR Popup */}
       {qrUrl && (
-        <div className="fixed bottom-4 right-4 sm:absolute sm:top-10 sm:right-10 sm:bottom-6 bg-white border border-gray-300 shadow-lg rounded-lg p-4 z-50 h-auto">
+        <div className="fixed bottom-4 right-4 sm:absolute sm:top-10 sm:right-10 sm:bottom-6 bg-white border border-gray-300 shadow-lg rounded-lg p-4 z-50 h-68">
           <div className="flex justify-between items-center mb-3">
             <h2 className="text-sm font-semibold">QR Code</h2>
             <button
