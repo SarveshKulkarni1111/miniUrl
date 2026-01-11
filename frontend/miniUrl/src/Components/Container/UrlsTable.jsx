@@ -15,9 +15,9 @@ const UrlsTable = ({ urls = [], onDelete }) => {
         {/* Hide headers on mobile */}
         <thead className="hidden md:table-header-group bg-gray-100">
           <tr className="text-left text-sm text-gray-600">
-            <th className="px-4 py-3">Original URL: </th>
-            <th className="px-4 py-3">Short URL: </th>
-            <th className="px-4 py-3 text-center">Redirects: </th>
+            <th className="px-4 py-3">Original URL</th>
+            <th className="px-4 py-3">Short URL</th>
+            <th className="px-4 py-3 text-center">Redirects</th>
             <th className="px-4 py-3 text-center">Actions</th>
           </tr>
         </thead>
@@ -38,7 +38,7 @@ const UrlsTable = ({ urls = [], onDelete }) => {
                 {/* Original URL */}
                 <td className="block md:table-cell px-4 py-2">
                   <span className="md:hidden text-xs text-gray-500">
-                    Original URL
+                    Original URL: 
                   </span>
                   <div className="break-all">{url.original_url}</div>
                 </td>
@@ -46,7 +46,7 @@ const UrlsTable = ({ urls = [], onDelete }) => {
                 {/* Short URL */}
                 <td className="block md:table-cell px-4 py-2 text-blue-600">
                   <span className="md:hidden text-xs text-gray-500">
-                    Short URL
+                    Short URL: 
                   </span>
                   <a
                     href={url.short_code}
@@ -61,7 +61,7 @@ const UrlsTable = ({ urls = [], onDelete }) => {
                 {/* Redirect count */}
                 <td className="block md:table-cell px-4 py-2 md:text-center">
                   <span className="md:hidden text-xs text-gray-500">
-                    Redirects
+                    Redirects: 
                   </span>
                   {url.redirect_count}
                 </td>
