@@ -38,31 +38,29 @@ async function createMiniUrl(data) {
   }
 
   async function getOriginalUrl(shortCode) {
-  // 1️⃣ Increment redirect count
-  const updateQuery = `
-    UPDATE mini_urls
-    SET redirect_count = redirect_count + 1
+  // 1️⃣ Fetch URL (and ensure not deleted)
+  const selectQuery = `
+    SELECT id, original_url
+    FROM mini_urls
     WHERE short_code = ? AND is_deleted = 0
   `;
 
-  const [updateResult] = await db.execute(updateQuery, [shortCode]);
+  const [[record]] = await db.execute(selectQuery, [shortCode]);
 
-  // If nothing was updated, URL doesn't exist or is deleted
-  if (updateResult.affectedRows === 0) {
+  if (!record) {
     return null;
   }
 
-  // 2️⃣ Fetch original URL
-  const selectQuery = `
-    SELECT original_url
-    FROM mini_urls
-    WHERE short_code = ? AND is_deleted = 0
-    LIMIT 1
+  // 2️⃣ Increment redirect count
+  const updateQuery = `
+    UPDATE mini_urls
+    SET redirect_count = redirect_count + 1
+    WHERE id = ?
   `;
 
-  const [rows] = await db.execute(selectQuery, [shortCode]);
+  await db.execute(updateQuery, [record.id]);
 
-  return rows[0];
+  return record; // { id, original_url }
 }
 
 

@@ -1,5 +1,6 @@
 const miniUrlModel = require('../Models/miniUrl');
 const {nanoid} = require('nanoid');
+const { logClickEvent } = require('../Models/Analytics');
 
 async function createMiniUrl(req, res) {
   try {
@@ -117,20 +118,38 @@ async function deleteMiniUrl(req, res) {
 }
 
 async function redirectMiniUrl(req, res) {
+  const startTime = Date.now();
+
   try {
     const { shortCode } = req.params;
 
     const record = await miniUrlModel.getOriginalUrl(shortCode);
 
     if (!record) {
-      return res.status(404).json({ message: 'URL not found or deleted' });
+      return res.status(404).json({
+        message: 'URL not found or deleted'
+      });
     }
 
-    // Redirect to the original URL
-    res.redirect(record.original_url);
+    const redirectTimeMs = Date.now() - startTime;
+
+    // 🔹 Store analytics (non-blocking is optional)
+    await logClickEvent({
+      urlId: record.id,
+      ip: req.ip,
+      userAgent: req.headers['user-agent'],
+      country: req.geo?.country || null,
+      city: req.geo?.city || null,
+      redirectTimeMs
+    });
+
+    return res.redirect(record.original_url);
+
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    return res.status(500).json({
+      error: 'Internal server error'
+    });
   }
 }
 
