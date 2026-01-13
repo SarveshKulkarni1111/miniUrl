@@ -1,4 +1,4 @@
-const analyticsModel = require('../Models/Analytics');
+const analyticsModel = require('../Models/analytics');
 
 async function getDashboardAnalytics(req, res) {
   try {

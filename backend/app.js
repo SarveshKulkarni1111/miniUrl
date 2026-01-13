@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const miniUrl = require('./Routes/miniUrl');
-const Analytics = require('./Routes/Analytics');
+const Analytics = require('./Routes/analytics');
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
