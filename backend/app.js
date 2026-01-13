@@ -17,7 +17,7 @@ app.set('trust proxy', true);
 
 
 app.use('/api', miniUrl);
-app.use('/api/analytics', Analytics);
+app.use('/analytics', Analytics);
 
 
 const PORT = process.env.PORT || 3000;
