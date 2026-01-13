@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const miniUrl = require('./Routes/miniUrl');
-const analyticsRoutes = require('./Routes/Analytics');
+const Analytics = require('./Routes/Analytics');
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -17,7 +17,7 @@ app.set('trust proxy', true);
 
 
 app.use('/api', miniUrl);
-app.use('/api/analytics', analyticsRoutes);
+app.use('/api/analytics', Analytics);
 
 
 const PORT = process.env.PORT || 3000;
