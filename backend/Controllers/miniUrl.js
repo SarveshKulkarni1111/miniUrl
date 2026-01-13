@@ -1,6 +1,6 @@
 const miniUrlModel = require('../Models/miniUrl');
 const {nanoid} = require('nanoid');
-const { logClickEvent } = require('../Models/analytics');
+const { logClickEvent } = require('../Models/Analytics');
 
 async function createMiniUrl(req, res) {
   try {
