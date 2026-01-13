@@ -3,7 +3,7 @@ const db = require('./db');
 
 async function logClickEvent({urlId,ip,userAgent,country,city,redirectTimeMs}) {
     const sql = `INSERT INTO url_click_events
-    (url_id, ip_address, user_agent, country, city, redirect_time_ms)
+    (mini_url_id, ip_hash, user_agent, country, city, redirect_time_ms)
     VALUES (?, ?, ?, ?, ?, ?)`;
 
   await db.execute(sql, [urlId,ip,userAgent,country,city,redirectTimeMs]);
