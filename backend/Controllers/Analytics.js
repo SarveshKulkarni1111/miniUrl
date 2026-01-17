@@ -18,7 +18,7 @@ async function getDashboardAnalytics(req, res) {
       analyticsModel.getGeoAnalytics()
     ]);
 
-    return res.json({
+    res.json({
       topLinks,
       averageClicksPerLink: avgClicks.avg_clicks_per_link,
       urlsCreatedLast7Days: urlsCreated,
