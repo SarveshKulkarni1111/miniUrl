@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import api from '../../api';
 
 const InputForm = ({ onUrlAdded }) => {
   const [url, setUrl] = useState("");
@@ -14,8 +15,15 @@ const InputForm = ({ onUrlAdded }) => {
       setLoading(true);
       setError(null);
 
-      const response = await axios.post(
-        "https://miniurl-dfc8.onrender.com/api/miniUrl",
+      // const response = await axios.post(
+      //   "https://miniurl-dfc8.onrender.com/api/miniUrl",
+      //   {
+      //     longUrl: url,
+      //   }
+      // );
+
+      const response = await api.post(
+        "/api/miniUrl",
         {
           longUrl: url,
         }

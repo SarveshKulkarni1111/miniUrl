@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import LinkCountPerWeekChart from './LinkCountPerWeekChart';
+import api from '../../api';
 
 const Dashboard = () => {
   const [urlsCreatedLast7Days, setUrlsCreatedLast7Days] = useState([]);
@@ -8,8 +9,12 @@ const Dashboard = () => {
 
   const fetchDashboardAnalytics = async () => {
     try {
-      const res = await axios.get(
-        'https://miniurl-dfc8.onrender.com/analytics/dashboard'
+      // const res = await axios.get(
+      //   'https://miniurl-dfc8.onrender.com/analytics/dashboard'
+      // );
+
+      const res = await api.get(
+        '/analytics/dashboard'
       );
 
       setUrlsCreatedLast7Days(

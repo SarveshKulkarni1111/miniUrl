@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://miniurl-dfc8.onrender.com/api',
+  baseURL: 'https://miniurl-dfc8.onrender.com',
 });
 
 
