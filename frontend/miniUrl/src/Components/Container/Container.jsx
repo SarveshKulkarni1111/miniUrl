@@ -27,7 +27,7 @@ const Container = () => {
     try {
       setLoading(true);
       // await axios.post(`https://miniurl-dfc8.onrender.com/api/${id}`);
-      await api.post(`/api//${id}`);
+      await api.post(`/api/${id}`);
       setUrls(prev => prev.filter(url => url.id !== id));
     } catch (err) {
       console.error(err);
