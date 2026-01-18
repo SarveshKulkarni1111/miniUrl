@@ -4,7 +4,8 @@ const api = axios.create({
   baseURL: 'https://miniurl-dfc8.onrender.com/api',
 });
 
-api.interceptors.request.use((config) => {
+
+api.interceptors.request.use(config => {
   const token = localStorage.getItem('token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
