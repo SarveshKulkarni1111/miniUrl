@@ -15,7 +15,7 @@ export default function Auth({ onAuth }) {
     setMessage('');
     setLoading(true);
     try {
-      const url = isLogin ? '/auth/login' : '/auth/signup';
+      const url = isLogin ? '/api/auth/login' : '/api/auth/signup';
       const payload = isLogin
         ? { email: form.email, password: form.password }
         : form;
