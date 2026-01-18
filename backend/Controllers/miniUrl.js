@@ -86,7 +86,7 @@ async function getMiniUrl(req, res) {
     });
   } catch (error) {
     console.error("getMiniUrl error:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: error});
   }
 }
 
@@ -114,7 +114,7 @@ async function deleteMiniUrl(req, res) {
     });
   } catch (error) {
     console.error("deleteMiniUrl error:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: error });
   }
 }
 
@@ -136,9 +136,9 @@ async function redirectMiniUrl(req, res) {
 
     // 🔹 Store analytics (non-blocking is optional)
     await logClickEvent({
-      urlId: record.id,
-      ip: req.ip,
-      userAgent: req.headers["user-agent"],
+      urlId: record.id || null,
+      ip: req.ip || null,
+      userAgent: req.headers["user-agent"] || null,
       country: req.geo?.country || null,
       city: req.geo?.city || null,
       redirectTimeMs,
@@ -148,7 +148,7 @@ async function redirectMiniUrl(req, res) {
   } catch (error) {
     console.error(error);
     return res.status(500).json({
-      error: "Internal server error",
+      error: error
     });
   }
 }
