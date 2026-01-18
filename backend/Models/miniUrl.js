@@ -1,11 +1,11 @@
 const db = require("./db");
 
-async function createMiniUrl(data, userId) {
+async function createMiniUrl(data) {
   const query = `
       INSERT INTO mini_urls  (original_url, short_code, created_by, user_id)
       VALUES (?, ?, ?, ?)
     `;
-  const values = [data.longUrl, data.shortCode, data.userId, userId];
+  const values = [data.longUrl, data.shortCode, data.userId, data.userId];
   const [result] = await db.execute(query, values);
   return result;
 }
