@@ -11,8 +11,8 @@ const Container = () => {
 
   const fetchUrls = async () => {
     try {
-      // const response = await axios.get('https://miniurl-dfc8.onrender.com/api/miniUrl');
-      const response = await api.get('/miniUrl');
+      const response = await axios.get('https://miniurl-dfc8.onrender.com/api/miniUrl');
+      // const response = await api.get('/miniUrl');
       setUrls(response.data.data);
     } catch (err) {
       console.error(err);
@@ -26,8 +26,8 @@ const Container = () => {
   const handleDelete = async (id) => {
     try {
       setLoading(true);
-      // await axios.post(`https://miniurl-dfc8.onrender.com/api/${id}`);
-      await api.post(`/${id}`);
+      await axios.post(`https://miniurl-dfc8.onrender.com/api/${id}`);
+      // await api.post(`/${id}`);
       setUrls(prev => prev.filter(url => url.id !== id));
     } catch (err) {
       console.error(err);
