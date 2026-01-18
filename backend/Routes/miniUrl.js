@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Auth = require('../middlewares/Auth');
+const Auth = require('../Middlewares/Auth');
 const {createMiniUrl, getMiniUrls, getMiniUrl, deleteMiniUrl, redirectMiniUrl} = require('../Controllers/miniUrl');
 
 router.post('/miniUrl', Auth, createMiniUrl);
