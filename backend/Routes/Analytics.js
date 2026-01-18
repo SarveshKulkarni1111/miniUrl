@@ -4,6 +4,6 @@ const Auth = require('../Middlewares/Auth');
 const { getDashboardAnalytics } = require('../Controllers/Analytics');
  
 
-router.get('/dashboard', Auth, getDashboardAnalytics);
+router.get('/dashboard', getDashboardAnalytics);
 
 module.exports = router;
