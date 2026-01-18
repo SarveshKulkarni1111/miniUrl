@@ -1,4 +1,4 @@
-const analyticsModel = require('../Models/Analytics');
+const analyticsModel = require("../Models/Analytics");
 
 async function getDashboardAnalytics(req, res) {
   try {
@@ -6,34 +6,34 @@ async function getDashboardAnalytics(req, res) {
       topLinks,
       avgClicks,
       urlsCreated,
-    //   rateLimitHits,
+      //   rateLimitHits,
       redirectTime,
-      geoAnalytics
+      geoAnalytics,
     ] = await Promise.all([
       analyticsModel.getTopLinks(),
       analyticsModel.getAverageClicksPerLink(),
       analyticsModel.getUrlsCreatedLast7Days(),
-    //   analyticsModel.getRateLimitHitsLast7Days(),
+      //   analyticsModel.getRateLimitHitsLast7Days(),
       analyticsModel.getAverageRedirectTime(),
-      analyticsModel.getGeoAnalytics()
+      analyticsModel.getGeoAnalytics(),
     ]);
 
     res.json({
       topLinks,
       averageClicksPerLink: avgClicks.avg_clicks_per_link,
       urlsCreatedLast7Days: urlsCreated,
-    //   rateLimitHitsLast7Days: rateLimitHits,
+      //   rateLimitHitsLast7Days: rateLimitHits,
       averageRedirectTimeMs: redirectTime.avg_redirect_time_ms,
-      geoAnalytics
+      geoAnalytics,
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      error: 'Failed to fetch analytics'
+      error: "Failed to fetch analytics",
     });
   }
 }
 
 module.exports = {
-  getDashboardAnalytics
+  getDashboardAnalytics,
 };

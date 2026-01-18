@@ -1,13 +1,19 @@
-const db = require('./db');
+const db = require("./db");
 
-
-async function logClickEvent({urlId,ip,userAgent,country,city,redirectTimeMs}) {
-    const sql = `INSERT INTO url_click_events
+async function logClickEvent({
+  urlId,
+  ip,
+  userAgent,
+  country,
+  city,
+  redirectTimeMs,
+}) {
+  const sql = `INSERT INTO url_click_events
     (mini_url_id, ip_hash, user_agent, country, city, redirect_time_ms)
     VALUES (?, ?, ?, ?, ?, ?)`;
 
-  await db.execute(sql, [urlId,ip,userAgent,country,city,redirectTimeMs]);
-  }
+  await db.execute(sql, [urlId, ip, userAgent, country, city, redirectTimeMs]);
+}
 
 // Top 10 Links by clicks
 
@@ -24,9 +30,8 @@ async function getTopLinks() {
   return rows;
 }
 
-
 // Average clicks per link
- 
+
 async function getAverageClicksPerLink() {
   const [[row]] = await db.execute(`
     SELECT ROUND(COUNT(c.id) / COUNT(DISTINCT m.id), 2) AS avg_clicks_per_link
@@ -37,20 +42,36 @@ async function getAverageClicksPerLink() {
   return row;
 }
 
-
 // URLs created per day (last 7 days)
 
 async function getUrlsCreatedLast7Days() {
+  // SELECT DATE(created_at) AS day, COUNT(*) AS urls_created
+  //     FROM mini_urls
+  //     WHERE created_at >= CURDATE() - INTERVAL 7 DAY
+  //     GROUP BY day
+  //     ORDER BY day
+
   const [rows] = await db.execute(`
-    SELECT DATE(created_at) AS day, COUNT(*) AS urls_created
-    FROM mini_urls
-    WHERE created_at >= CURDATE() - INTERVAL 7 DAY
-    GROUP BY day
-    ORDER BY day
+    SELECT
+    d.day,
+    COALESCE(COUNT(m.id), 0) AS urls_created
+    FROM (
+      SELECT CURDATE() - INTERVAL 6 DAY AS day UNION ALL
+      SELECT CURDATE() - INTERVAL 5 DAY UNION ALL
+      SELECT CURDATE() - INTERVAL 4 DAY UNION ALL
+      SELECT CURDATE() - INTERVAL 3 DAY UNION ALL
+      SELECT CURDATE() - INTERVAL 2 DAY UNION ALL
+      SELECT CURDATE() - INTERVAL 1 DAY UNION ALL
+      SELECT CURDATE()
+    ) d
+    LEFT JOIN mini_urls m
+      ON DATE(m.created_at) = d.day
+    GROUP BY d.day
+    ORDER BY d.day;
+
   `);
   return rows;
 }
-
 
 // Rate limit hits (last 7 days)
 
@@ -64,7 +85,6 @@ async function getUrlsCreatedLast7Days() {
 //   `);
 //   return rows;
 // }
-
 
 // Average redirect time (ms)
 
@@ -98,7 +118,7 @@ module.exports = {
   getTopLinks,
   getAverageClicksPerLink,
   getUrlsCreatedLast7Days,
-//   getRateLimitHitsLast7Days,
+  //   getRateLimitHitsLast7Days,
   getAverageRedirectTime,
-  getGeoAnalytics
+  getGeoAnalytics,
 };

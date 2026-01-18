@@ -4,6 +4,7 @@ const cors = require('cors');
 const app = express();
 const miniUrl = require('./Routes/miniUrl');
 const Analytics = require('./Routes/Analytics');
+const AuthRoutes = require('./Routes/Auth');
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -16,6 +17,7 @@ app.use(
 app.set('trust proxy', true);
 
 
+app.use('/api/auth', AuthRoutes);
 app.use('/api', miniUrl);
 app.use('/analytics', Analytics);
 

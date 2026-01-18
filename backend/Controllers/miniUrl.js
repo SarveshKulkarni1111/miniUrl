@@ -1,15 +1,15 @@
-const miniUrlModel = require('../Models/miniUrl');
-const {nanoid} = require('nanoid');
-const { logClickEvent } = require('../Models/Analytics');
+const miniUrlModel = require("../Models/miniUrl");
+const { nanoid } = require("nanoid");
+const { logClickEvent } = require("../Models/Analytics");
 
 async function createMiniUrl(req, res) {
   try {
     const { longUrl } = req.body;
-    const userId =  0;
+    const userId = req.user.userId;
 
     // 1️⃣ Validate input
     if (!longUrl) {
-      return res.status(400).json({ error: 'longUrl is required' });
+      return res.status(400).json({ error: "longUrl is required" });
     }
 
     // 2️⃣ Generate short code
@@ -19,22 +19,21 @@ async function createMiniUrl(req, res) {
     const result = await miniUrlModel.createMiniUrl({
       longUrl,
       shortCode,
-      userId
+      userId,
     });
 
     // 4️⃣ Build short URL
-    const shortUrl = `${req.protocol}://${req.get('host')}/api/r/${shortCode}`;
+    const shortUrl = `${req.protocol}://${req.get("host")}/api/r/${shortCode}`;
 
     res.status(201).json({
-      message: 'Short URL created',
+      message: "Short URL created",
       data: {
         id: result.insertId,
         longUrl,
         shortCode,
-        shortUrl
-      }
+        shortUrl,
+      },
     });
-
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: error });
@@ -43,20 +42,22 @@ async function createMiniUrl(req, res) {
 
 async function getMiniUrls(req, res) {
   try {
+    const userId = req.user.userId;
 
-    const urls = await miniUrlModel.getAllMiniUrls();
+    const urls = await miniUrlModel.getAllMiniUrls(userId);
 
-    urls.forEach(url => {
-      url.short_code = `${req.protocol}://${req.get('host')}/api/r/${url.short_code}`;
+    urls.forEach((url) => {
+      url.short_code = `${req.protocol}://${req.get("host")}/api/r/${
+        url.short_code
+      }`;
     });
 
     res.status(200).json({
       data: urls,
-      count: urls.length
+      count: urls.length,
     });
-
   } catch (error) {
-    console.error('getMiniUrls error:', error);
+    console.error("getMiniUrls error:", error);
     res.status(500).json({ error: error });
   }
 }
@@ -64,56 +65,56 @@ async function getMiniUrls(req, res) {
 async function getMiniUrl(req, res) {
   try {
     const { id } = req.params;
+    const userId = req.user.userId;
 
     // 1️⃣ Validate input
     if (!id || isNaN(id)) {
-      return res.status(400).json({ error: 'Invalid URL id' });
+      return res.status(400).json({ error: "Invalid URL id" });
     }
 
     // 2️⃣ Fetch from DB
-    const miniUrl = await miniUrlModel.getMiniUrlById(Number(id));
+    const miniUrl = await miniUrlModel.getMiniUrlById(Number(id), userId);
 
     // 3️⃣ Handle not found
     if (!miniUrl) {
-      return res.status(404).json({ error: 'URL not found' });
+      return res.status(404).json({ error: "URL not found" });
     }
 
     // 4️⃣ Success response
     res.status(200).json({
-      data: miniUrl
+      data: miniUrl,
     });
-
   } catch (error) {
-    console.error('getMiniUrl error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("getMiniUrl error:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 }
 
 async function deleteMiniUrl(req, res) {
   try {
     const { id } = req.params;
+    const userId = req.user.userId;
 
     // 1️⃣ Validate input
     if (!id || isNaN(id)) {
-      return res.status(400).json({ error: 'Invalid URL id' });
+      return res.status(400).json({ error: "Invalid URL id" });
     }
 
     // 2️⃣ Delete (soft delete)
-    const result = await miniUrlModel.deleteMiniUrl(Number(id));
+    const result = await miniUrlModel.deleteMiniUrl(Number(id), userId);
 
     // 3️⃣ Handle not found
     if (result.affectedRows === 0) {
-      return res.status(404).json({ error: 'URL not found' });
+      return res.status(404).json({ error: "URL not found" });
     }
 
     // 4️⃣ Success response
     res.status(200).json({
-      message: 'URL deleted successfully'
+      message: "URL deleted successfully",
     });
-
   } catch (error) {
-    console.error('deleteMiniUrl error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("deleteMiniUrl error:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 }
 
@@ -127,7 +128,7 @@ async function redirectMiniUrl(req, res) {
 
     if (!record) {
       return res.status(404).json({
-        message: 'URL not found or deleted'
+        message: "URL not found or deleted",
       });
     }
 
@@ -137,18 +138,17 @@ async function redirectMiniUrl(req, res) {
     await logClickEvent({
       urlId: record.id,
       ip: req.ip,
-      userAgent: req.headers['user-agent'],
+      userAgent: req.headers["user-agent"],
       country: req.geo?.country || null,
       city: req.geo?.city || null,
-      redirectTimeMs
+      redirectTimeMs,
     });
 
     return res.redirect(record.original_url);
-
   } catch (error) {
     console.error(error);
     return res.status(500).json({
-      error: 'Internal server error'
+      error: "Internal server error",
     });
   }
 }
@@ -158,5 +158,5 @@ module.exports = {
   getMiniUrls,
   getMiniUrl,
   deleteMiniUrl,
-  redirectMiniUrl
+  redirectMiniUrl,
 };
