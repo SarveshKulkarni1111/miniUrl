@@ -5,7 +5,7 @@ const {createMiniUrl, getMiniUrls, getMiniUrl, deleteMiniUrl, redirectMiniUrl} =
 
 router.post('/miniUrl', Auth, createMiniUrl);
 router.get('/miniUrl', Auth, getMiniUrls);
-router.get('/r/:shortCode', Auth, redirectMiniUrl);
+router.get('/r/:shortCode', redirectMiniUrl);
 router.get('/:id', Auth, getMiniUrl);
 router.post('/:id', Auth, deleteMiniUrl);
 
