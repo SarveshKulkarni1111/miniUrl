@@ -28,10 +28,11 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/"element={isAuth ? (<Container />) : (<Auth onAuth={() => setIsAuth(true)} />)}/>
           {/* <Route element={<ProtectedRoute />}> */}
             {/* <Route path="/" element={<Container />} /> */}
-            <Route path="/dashboard" element={<Dashboard />} />
+            
           {/* </Route> */}
         </Route>
       </Routes>
