@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Outlet  } from "react-router-dom";
+import { HashRouter, Routes, Route, Outlet  } from "react-router-dom";
 import "./App.css";
 import Container from "./Components/Container/Container";
 import Footer from "./Components/Footer/Footer";
@@ -25,18 +25,17 @@ function App() {
   const [isAuth, setIsAuth] = useState(!!localStorage.getItem("token"));
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route element={<Layout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/"element={isAuth ? (<Container />) : (<Auth onAuth={() => setIsAuth(true)} />)}/>
           {/* <Route element={<ProtectedRoute />}> */}
             {/* <Route path="/" element={<Container />} /> */}
-            
+            <Route path="/dashboard" element={<Dashboard />} />
           {/* </Route> */}
         </Route>
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
