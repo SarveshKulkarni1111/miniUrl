@@ -29,10 +29,10 @@ function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route path="/"element={isAuth ? (<Container />) : (<Auth onAuth={() => setIsAuth(true)} />)}/>
-          {/* <Route element={<ProtectedRoute />}> */}
+          <Route element={<ProtectedRoute />}>
             {/* <Route path="/" element={<Container />} /> */}
             <Route path="/dashboard" element={<Dashboard />} />
-          {/* </Route> */}
+          </Route>
         </Route>
       </Routes>
     </HashRouter>
