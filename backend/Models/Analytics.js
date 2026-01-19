@@ -7,12 +7,13 @@ async function logClickEvent({
   country,
   city,
   redirectTimeMs,
+  referrer,
 }) {
   const sql = `INSERT INTO url_click_events
-    (mini_url_id, ip_hash, user_agent, country, city, redirect_time_ms)
-    VALUES (?, ?, ?, ?, ?, ?)`;
+    (mini_url_id, ip_hash, user_agent, country, city, redirect_time_ms, referrer)
+    VALUES (?, ?, ?, ?, ?, ?, ?)`;
 
-  await db.execute(sql, [urlId, ip, userAgent, country, city, redirectTimeMs]);
+  await db.execute(sql, [urlId, ip, userAgent, country, city, redirectTimeMs, referrer]);
 }
 
 // Top 10 Links by clicks

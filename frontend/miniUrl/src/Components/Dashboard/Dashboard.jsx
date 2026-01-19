@@ -1,34 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import LinkCountPerWeekChart from './LinkCountPerWeekChart';
-import api from '../../api';
+import { useEffect, useState } from "react";
+import api from "../../api";
+import StatCard from "./StatCard";
+import TopLinksTable from "./TopLinksTable";
+import LinkCountPerWeekChart from "./LinkCountPerWeekChart";
 
 const Dashboard = () => {
-  const [urlsCreatedLast7Days, setUrlsCreatedLast7Days] = useState([]);
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchDashboardAnalytics = async () => {
-    try {
-      // const res = await axios.get(
-      //   'https://miniurl-dfc8.onrender.com/analytics/dashboard'
-      // );
-
-      const res = await api.get(
-        '/analytics/dashboard'
-      );
-
-      setUrlsCreatedLast7Days(
-        res.data.urlsCreatedLast7Days || []
-      );
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchDashboardAnalytics();
+    const fetchAnalytics = async () => {
+      try {
+        const res = await api.get("/analytics/dashboard");
+        setData(res.data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAnalytics();
   }, []);
 
   if (loading) {
@@ -41,14 +33,32 @@ const Dashboard = () => {
 
   return (
     <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
-      <h1 className="text-xl font-semibold">
+      <h1 className="text-xl font-semibold text-gray-900">
         Analytics Dashboard
       </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <LinkCountPerWeekChart urlsCreatedLast7Days={urlsCreatedLast7Days}/>
-        
+      {/* Stats */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <StatCard
+          label="Average Redirect Time"
+          value={data.averageRedirectTimeMs}
+          unit="ms"
+        />
+
+        <StatCard
+          label="Average Clicks per Link"
+          value={data.averageClicksPerLink}
+        />
       </div>
+
+      {/* Chart + Top Links */}
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <LinkCountPerWeekChart
+        urlsCreatedLast7Days={data.urlsCreatedLast7Days}
+      />
+    
+      <TopLinksTable links={data.topLinks} />
+    </div>
     </div>
   );
 };

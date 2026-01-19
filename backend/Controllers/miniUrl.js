@@ -142,6 +142,7 @@ async function redirectMiniUrl(req, res) {
       country: req.geo?.country || null,
       city: req.geo?.city || null,
       redirectTimeMs,
+      referrer: req.headers.referer || null
     });
 
     return res.redirect(record.original_url);

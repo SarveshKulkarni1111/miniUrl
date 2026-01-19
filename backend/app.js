@@ -5,6 +5,7 @@ const app = express();
 const miniUrl = require('./Routes/miniUrl');
 const Analytics = require('./Routes/Analytics');
 const AuthRoutes = require('./Routes/Auth');
+const geoip = require("geoip-lite");
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -15,6 +16,17 @@ app.use(
     })
 );
 app.set('trust proxy', true);
+app.use((req, res, next) => {
+  const geoip = require("geoip-lite");
+
+  const ip =
+    req.headers["x-forwarded-for"]?.split(",")[0] ||
+    req.ip;
+
+  req.clientIp = ip;
+  req.geo = geoip.lookup(ip);
+  next();
+});
 
 
 app.use('/api/auth', AuthRoutes);
