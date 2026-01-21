@@ -86,7 +86,7 @@ async function getMiniUrl(req, res) {
     });
   } catch (error) {
     console.error("getMiniUrl error:", error);
-    res.status(500).json({ error: error});
+    res.status(500).json({ error: error });
   }
 }
 
@@ -134,22 +134,25 @@ async function redirectMiniUrl(req, res) {
 
     const redirectTimeMs = Date.now() - startTime;
 
-    // 🔹 Store analytics (non-blocking is optional)
-    await logClickEvent({
-      urlId: record.id || null,
-      ip: req.ip || null,
-      userAgent: req.headers["user-agent"] || null,
-      country: req.geo?.country || null,
-      city: req.geo?.city || null,
-      redirectTimeMs,
-      referrer: req.headers.referer || null
-    });
+    res.redirect(record.original_url);
 
-    return res.redirect(record.original_url);
+    setImmediate(() => {
+      logClickEvent({
+        urlId: record.id,
+        ip: req.ip || null,
+        userAgent: req.headers["user-agent"] || null,
+        country: req.geo?.country || null,
+        city: req.geo?.city || null,
+        redirectTimeMs,
+        referer: req.headers.referer || null,
+      }).catch((err) => {
+        console.error("Analytics logging failed:", err);
+      });
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({
-      error: error
+      error: error,
     });
   }
 }
