@@ -6,6 +6,8 @@ const miniUrl = require('./Routes/miniUrl');
 const Analytics = require('./Routes/Analytics');
 const AuthRoutes = require('./Routes/Auth');
 const geoip = require("geoip-lite");
+const rateLimit = require("./Middlewares/rateLimit");
+const authMiddleware = require("./Middlewares/Auth");
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -30,6 +32,10 @@ app.use((req, res, next) => {
 
 
 app.use('/api/auth', AuthRoutes);
+
+app.use(authMiddleware);
+app.use(rateLimit);
+
 app.use('/api', miniUrl);
 app.use('/analytics', Analytics);
 
