@@ -144,7 +144,7 @@ async function redirectMiniUrl(req, res) {
         country: req.geo?.country || null,
         city: req.geo?.city || null,
         redirectTimeMs,
-        referer: req.headers.referer || null,
+        referer: req.headers?.referer || null
       }).catch((err) => {
         console.error("Analytics logging failed:", err);
       });
