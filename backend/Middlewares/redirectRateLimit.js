@@ -5,7 +5,13 @@ const LIMIT = 300; // higher for redirects
 
 module.exports = async (req, res, next) => {
   try {
-    const key = `rate:redirect:${req.ip}`;
+
+    const ip =
+      req.headers["x-forwarded-for"]?.split(",")[0] ||
+      req.socket.remoteAddress ||
+      req.ip;
+      
+    const key = `rate:redirect:${ip}`;
     const count = await redis.incr(key);
 
     if (count === 1) {
