@@ -1,7 +1,7 @@
 const redis = require("../Models/redis");
 
 const WINDOW = 60;
-const LIMIT = 300; // higher for redirects
+const LIMIT = 100;
 
 module.exports = async (req, res, next) => {
   try {
@@ -10,11 +10,12 @@ module.exports = async (req, res, next) => {
       req.headers["x-forwarded-for"]?.split(",")[0] ||
       req.socket.remoteAddress ||
       req.ip;
-      
+
     const key = `rate:redirect:${ip}`;
     const count = await redis.incr(key);
+    const ttl = await redis.ttl(key);
 
-    if (count === 1) {
+    if (ttl === -1) {
       await redis.expire(key, WINDOW);
     }
 

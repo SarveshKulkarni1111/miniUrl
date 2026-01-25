@@ -2,7 +2,7 @@ const db = require('../config/db');
 
 function findByEmail(email) {
   return db.execute(
-    'SELECT * FROM users WHERE email = ?',
+    'SELECT * FROM users WHERE email = ? AND is_delete = 0',
     [email]
   );
 }

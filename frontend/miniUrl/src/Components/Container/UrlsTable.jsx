@@ -58,6 +58,7 @@ const UrlsTable = ({ urls = [], onDelete }) => {
                     target="_blank"
                     rel="noreferrer"
                     className="hover:underline break-all"
+                    onClick={() => onRedirect(url.id)}
                   >
                     {url.short_code}
                   </a>

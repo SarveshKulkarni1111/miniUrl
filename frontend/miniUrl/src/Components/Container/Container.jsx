@@ -36,12 +36,21 @@ const Container = () => {
     }
   };
 
+  const handleRedirect = (id) => {
+  // Optimistically update redirect_count
+  setUrls((prev) =>
+    prev.map((u) =>
+      u.id === id ? { ...u, redirect_count: u.redirect_count + 1 } : u
+    )
+  );
+};
+
 
   return (
     <>
       <InputForm onUrlAdded={fetchUrls} />
       <main className="grow">
-        <UrlsTable urls={urls} onDelete={handleDelete} />
+        <UrlsTable urls={urls} onDelete={handleDelete} onRedirect={handleRedirect} />
       </main>
     </>
   );

@@ -1,13 +1,11 @@
 const redis = require("../Models/redis");
+const db = require("../Models/db");
 
 const WINDOW_SECONDS = 60; // 1 minute
-const MAX_REQUESTS = 5; // per window
+const MAX_REQUESTS = 30; // per window
 
 module.exports = async function rateLimit(req, res, next) {
   try {
-
-    console.log('🔥 rateLimit middleware HIT', req.method, req.originalUrl);
-    console.log('req.user: ', req.user);
 
     if (!req.user?.userId) {
       return res.status(401).json({ error: "Unauthorized" });
@@ -20,7 +18,6 @@ module.exports = async function rateLimit(req, res, next) {
       req.socket.remoteAddress ||
       req.ip;
 
-    // const ip = req.ip;
 
     // Prefer user-based limiting, fallback to IP
     const key = userId ? `rate:user:${userId}` : `rate:ip:${ip}`;
@@ -28,11 +25,10 @@ module.exports = async function rateLimit(req, res, next) {
     // Atomic increment
     const current = await redis.incr(key);
 
-    console.log("key: ", key);
-    console.log("count: ", count);
+    const ttl = await redis.ttl(key);
 
     // First request → set expiry
-    if (current === 1) {
+    if (ttl === -1) {
       await redis.expire(key, WINDOW_SECONDS);
     }
 

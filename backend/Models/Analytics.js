@@ -46,11 +46,6 @@ async function getAverageClicksPerLink() {
 // URLs created per day (last 7 days)
 
 async function getUrlsCreatedLast7Days() {
-  // SELECT DATE(created_at) AS day, COUNT(*) AS urls_created
-  //     FROM mini_urls
-  //     WHERE created_at >= CURDATE() - INTERVAL 7 DAY
-  //     GROUP BY day
-  //     ORDER BY day
 
   const [rows] = await db.execute(`
     SELECT
