@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Auth = require('../Middlewares/Auth');
+const rateLimit = require("../Middlewares/rateLimit");
 const redirectRateLimit = require('../Middlewares/redirectRateLimit');
 const {createMiniUrl, getMiniUrls, getMiniUrl, deleteMiniUrl, redirectMiniUrl} = require('../Controllers/miniUrl');
 
