@@ -33,8 +33,8 @@ app.use((req, res, next) => {
 
 app.use('/api/auth', AuthRoutes);
 
-app.use(authMiddleware);
-app.use(rateLimit);
+// app.use(authMiddleware);
+// app.use(rateLimit);
 
 app.use('/api', miniUrl);
 app.use('/analytics', Analytics);
