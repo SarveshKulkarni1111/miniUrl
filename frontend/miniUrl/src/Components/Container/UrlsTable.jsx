@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 
-const UrlsTable = ({ urls = [], onDelete }) => {
+const UrlsTable = ({ urls = [], onDelete, onRedirect }) => {
   const [qrUrl, setQrUrl] = useState(null);
   const [copiedId, setCopiedId] = useState(null);
 
