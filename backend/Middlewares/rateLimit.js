@@ -7,10 +7,6 @@ const MAX_REQUESTS = 40; // per window
 module.exports = async function rateLimit(req, res, next) {
   try {
 
-    if (!req.user?.userId) {
-      return res.status(401).json({ error: "Unauthorized" });
-    }
-
     const userId = req.user?.userId;
 
     const ip =
