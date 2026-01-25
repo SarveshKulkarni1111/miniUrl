@@ -3,10 +3,15 @@ import api from "../../api";
 import StatCard from "./StatCard";
 import TopLinksTable from "./TopLinksTable";
 import LinkCountPerWeekChart from "./LinkCountPerWeekChart";
+import Toast from "../Toast/errorToast";
 
 const Dashboard = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [toast, setToast] = useState(null);
+  
+  const showError = (msg) => setToast({ message: msg, type: "error" });
+
 
   useEffect(() => {
     const fetchAnalytics = async () => {
@@ -15,6 +20,7 @@ const Dashboard = () => {
         setData(res.data);
       } catch (err) {
         console.error(err);
+        showError(err.response?.data?.error || "Something went wrong");
       } finally {
         setLoading(false);
       }
@@ -32,6 +38,14 @@ const Dashboard = () => {
   }
 
   return (
+    <>
+    {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
       <h1 className="text-xl font-semibold text-gray-900">
         Analytics Dashboard
@@ -56,10 +70,11 @@ const Dashboard = () => {
       <LinkCountPerWeekChart
         urlsCreatedLast7Days={data.urlsCreatedLast7Days}
       />
-    
+
       <TopLinksTable links={data.topLinks} />
     </div>
     </div>
+    </>
   );
 };
 

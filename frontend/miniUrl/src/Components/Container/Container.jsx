@@ -3,10 +3,14 @@ import axios from 'axios';
 import InputForm from './InputForm';
 import UrlsTable from './UrlsTable';
 import api from '../../api';
+import Toast from "../Toast/errorToast";
 
 const Container = () => {
   const [urls, setUrls] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState(null);
+
+  const showError = (msg) => setToast({ message: msg, type: "error" });
 
 
   const fetchUrls = async () => {
@@ -15,7 +19,8 @@ const Container = () => {
       const response = await api.get('/api/miniUrl');
       setUrls(response.data.data);
     } catch (err) {
-      console.error(err);
+      console.log(err);
+      showError(err.response?.data?.error || "Something went wrong");
     }
   };
 
@@ -31,6 +36,7 @@ const Container = () => {
       setUrls(prev => prev.filter(url => url.id !== id));
     } catch (err) {
       console.error(err);
+      showError(err.response?.data?.error || "Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -48,6 +54,13 @@ const Container = () => {
 
   return (
     <>
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
       <InputForm onUrlAdded={fetchUrls} />
       <main className="grow">
         <UrlsTable urls={urls} onDelete={handleDelete} onRedirect={handleRedirect} />
