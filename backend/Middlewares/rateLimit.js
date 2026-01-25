@@ -6,6 +6,9 @@ const MAX_REQUESTS = 5; // per window
 module.exports = async function rateLimit(req, res, next) {
   try {
 
+    console.log('🔥 rateLimit middleware HIT', req.method, req.originalUrl);
+    console.log('req.user: ', req.user);
+
     if (!req.user?.userId) {
       return res.status(401).json({ error: "Unauthorized" });
     }
