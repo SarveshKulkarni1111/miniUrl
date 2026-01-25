@@ -2,7 +2,7 @@ const redis = require("../Models/redis");
 const db = require("../Models/db");
 
 const WINDOW_SECONDS = 60; // 1 minute
-const MAX_REQUESTS = 30; // per window
+const MAX_REQUESTS = 6; // per window
 
 module.exports = async function rateLimit(req, res, next) {
   try {
