@@ -16,6 +16,7 @@
     "express": "^5.2.1",
     "geoip-lite": "^1.4.10",
     "jsonwebtoken": "^9.0.3",
+    "jwt-decode": "^4.0.0",
     "mysql2": "^3.16.0",
     "nanoid": "^5.1.6",
     "nodemon": "^3.1.11"

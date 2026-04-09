@@ -6,7 +6,8 @@ import Header from "./Components/Header/Header";
 import Dashboard from './Components/Dashboard/Dashboard';
 import ProtectedRoute from "./Components/ProtectedRoute";
 import Auth from "./Components/Auth/Auth";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { jwtDecode } from "jwt-decode";
 
 const Layout = () => {
   return (
@@ -22,7 +23,27 @@ const Layout = () => {
 
 function App() {
 
-  const [isAuth, setIsAuth] = useState(!!localStorage.getItem("token"));
+  const [isAuth, setIsAuth] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+
+        if (decoded.exp * 1000 < Date.now()) {
+          localStorage.removeItem("token");
+          setIsAuth(false);
+        } else {
+          setIsAuth(true);
+        }
+      } catch (error) {
+        localStorage.removeItem("token");
+        setIsAuth(false);
+      }
+    }
+  }, []);
 
   return (
     <HashRouter>
